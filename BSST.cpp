@@ -273,7 +273,7 @@ bool AVLtree<T>::verify(T searchkey) {
 
 int main(void)
 {
-    bool debug = false;
+    bool debug = true;
 	AVLtree<string> t;
 
 	cout << "Inserting dictionary.txt" << endl;
@@ -285,13 +285,24 @@ int main(void)
     if (dict.is_open()){
         if (debug) cout << "Dictionary open." << endl;
         while (getline(dict, line)){
+            if (line == "ma") break;
+        }
+        t.insert("ma");
+        while (getline(dict, line)){
             t.insert(line);
             if (debug) cout << "Inserted " << line << endl;
         }
         dict.close();
     }
+    dict.open("./dictionary.txt");
+    if (dict.is_open()){
+        while (getline(dict, line)){
+            if (line == "ma") break;
+            t.insert(line);
+            if (debug) cout << "Inserted " << line << endl;
+        }
+    }
     
-    debug = false;
     string userword;
     cout << "Verifying: " << endl;
 	if (debug) { // 7 test words below, two should fail
