@@ -31,6 +31,7 @@ public:
 	bool insert(T key);
 	void deleteKey(const T key);
 	void printBalance();
+	bool verify(T key);
 
 private:
 	AVLnode<T> *root;
@@ -248,9 +249,31 @@ void AVLtree<T>::printBalance() {
 }
 
 
+
+template <class T>
+bool AVLtree<T>::verify(T searchkey) {
+	if (root == NULL) return false;
+
+	AVLnode<T>
+	*n       = root,
+	*parent  = root,
+	*delNode = NULL,
+	*child   = root;
+
+	
+	while (child != NULL) {
+		parent = n;
+		n = child;
+		child = searchkey >= n->key ? n->right : n->left;
+		if (searchkey == n->key)	return true;
+	}
+	return false;
+}
+
+
 int main(void)
 {
-    bool debug = true;
+    bool debug = false;
 	AVLtree<string> t;
 
 	cout << "Inserting dictionary.txt" << endl;
@@ -260,13 +283,29 @@ int main(void)
     ifstream dict; //opens it
     dict.open("./dictionary.txt");
     if (dict.is_open()){
+        if (debug) cout << "Dictionary open." << endl;
         while (getline(dict, line)){
             t.insert(line);
             if (debug) cout << "Inserted " << line << endl;
         }
         dict.close();
     }
-
-	cout << "Printing balance: ";
-	t.printBalance();
+    
+    debug = false;
+    string userword;
+    cout << "Verifying: " << endl;
+	if (debug) { // 7 test words below, two should fail
+	    string testWords[] = {"applesauce", "banana", "castrate", "whiskey", "marsupial", "odo", "hansolo"}; 
+	    for (int i = 0; i < 7; i++){
+    	    cout << "... " << testWords[i];
+    	    if (t.verify(testWords[i])) cout << " is in the dictionary." << endl;
+    	    else cout << " is not in the dictionary. I may have eaten it. I wuz hungry." << endl;
+    	}
+	}
+	else {
+	    cout << "What word would you like me to test (all lower-case please)?" << endl;
+	    cin >> userword;
+	    if (t.verify(userword)) cout << " is in the dictionary." << endl;
+	    else cout << " is not in the dictionary. I may have eaten it. I wuz hungry." << endl;
+	}
 }
