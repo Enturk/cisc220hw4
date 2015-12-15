@@ -310,13 +310,13 @@ int main(void)
 	    for (int i = 0; i < 7; i++){
     	    cout << "... " << testWords[i];
     	    if (t.verify(testWords[i])) cout << " is in the dictionary." << endl;
-    	    else cout << " is not in the dictionary. I may have eaten it. I wuz hungry." << endl;
+    	    else cout << testWords[i] << " is not in the dictionary. I may have eaten it. Last night was a blur and I wuz hungry." << endl;
     	}
 	}
 	else {
 	    cout << "What word would you like me to test (all lower-case please)?" << endl;
 	    cin >> userword;
 	    if (t.verify(userword)) cout << " is in the dictionary." << endl;
-	    else cout << " is not in the dictionary. I may have eaten it. I wuz hungry." << endl;
+	    else cout << testWords[i] << " is not in the dictionary. I may have eaten it. Loading that dictionary made me hungry." << endl;
 	}
 }
